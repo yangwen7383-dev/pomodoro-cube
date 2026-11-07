@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Pomodoro Cube</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- This acts as the camera/3D space -->
+    <div class="scene">
+        <div class="cube">
+            <div class="face front">5 Min</div>
+            <div class="face back">10 Min</div>
+            <div class="face right">15 Min</div>
+            <div class="face left">25 Min</div>
+            <div class="face top">45 Min</div>
+            <div class="face bottom">60 Min</div>
+        </div>
+    </div>
+
+    <!-- NEW: Directional Controls -->
+    <div class="nav-controls">
+        <button id="left-btn">Left</button>
+        <button id="up-btn">Up</button>
+        <button id="down-btn">Down</button>
+        <button id="right-btn">Right</button>
+    </div>
+
+    <!-- The Timer UI -->
+    <div class="ui-controls">
+        <h1 id="time-display">00:00</h1>
+        <div class="button-group">
+            <button id="play-btn">Play</button>
+            <button id="reset-btn">Reset</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

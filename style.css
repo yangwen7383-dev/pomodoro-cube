@@ -1,0 +1,108 @@
+/* Center everything on the screen and make it look clean */
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #1e1e2e;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* 1. The Camera Lens */
+.scene {
+    width: 200px;
+    height: 200px;
+    perspective: 600px; /* Gives the illusion of 3D depth */
+    margin-bottom: 40px; 
+}
+
+/* 2. The 3D Pivot Point */
+.cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d; /* Tells the browser the children exist in 3D space */
+    transform: translateZ(-100px) rotateX(-15deg) rotateY(-25deg); /* Tilted slightly so you can see it's 3D */
+    transition: transform 0.5s ease; /* Makes future JavaScript rotations smooth */
+}
+
+/* 3. Stack all faces on top of each other */
+.face {
+    position: absolute; /* This stacks them all in the exact same spot */
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    font-weight: bold;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 4. Fold and push them outward */
+/* The cube is 200px wide, so we push them out from the center by 100px (translateZ) */
+.front  { background-color: #ff595e; transform: rotateY(  0deg) translateZ(100px); }
+.right  { background-color: #8ac926; transform: rotateY( 90deg) translateZ(100px); }
+.back   { background-color: #ffca3a; transform: rotateY(180deg) translateZ(100px); }
+.left   { background-color: #1982c4; transform: rotateY(-90deg) translateZ(100px); }
+.top    { background-color: #6a4c93; transform: rotateX( 90deg) translateZ(100px); }
+.bottom { background-color: #f15bb5; transform: rotateX(-90deg) translateZ(100px); }
+
+/* Style the UI controls a bit */
+.ui-controls {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#play-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #8ac926;
+    border: none;
+    border-radius: 5px;
+    color: #1e1e2e;
+    font-weight: bold;
+}
+/* Style the navigation buttons */
+.nav-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.nav-controls button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4a4e69;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+.nav-controls button:hover {
+    background-color: #9a8c98;
+}
+
+/* Align the buttons side-by-side */
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Style the new Reset button */
+#reset-btn {
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #ff595e; /* Red color to indicate Stop/Reset */
+    border: none;
+    border-radius: 5px;
+    color: #1e1e2e;
+    font-weight: bold;
+}
