@@ -223,3 +223,76 @@ resetBtn.addEventListener('click', () => {
     let resetMinutes = getActiveMinutes();
     updateDisplay(resetMinutes * 60);
 });
+
+// --- 14. Hardware Tilt Mechanics ---
+const tiltBtn = document.getElementById('tilt-btn');
+
+// Configure sensitivity
+const tiltThreshold = 35; // Degrees you must tilt the phone to trigger a spin
+const resetThreshold = 15; // Degrees you must return to (leveling the phone) to unlock the next spin
+
+// Gatekeeper variables to prevent continuous blurring spins
+let canTiltX = true;
+let canTiltY = true;
+
+// Step 1: Request permission (Required for iPhones)
+tiltBtn.addEventListener('click', () => {
+    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+            .then(permissionState => {
+                if (permissionState === 'granted') {
+                    startTiltListener();
+                    tiltBtn.style.display = 'none'; // Hide button once enabled
+                } else {
+                    alert("Tilt permission was denied.");
+                }
+            })
+            .catch(console.error);
+    } else {
+        // Android devices don't require the permission prompt
+        startTiltListener();
+        tiltBtn.style.display = 'none';
+    }
+});
+
+// Step 2: Read the gyroscope
+function startTiltListener() {
+    window.addEventListener('deviceorientation', (event) => {
+        // Prevent tilting if the timer is already running
+        if (isPlaying) return;
+
+        let beta = event.beta;   // Pitch (tilting front/back)
+        let gamma = event.gamma; // Roll (tilting left/right)
+
+        // --- Handle Left/Right Tilts (Gamma) ---
+        if (canTiltY) {
+            if (gamma > tiltThreshold) {
+                currentY += 90; // Tilt right
+                rotateCube();
+                canTiltY = false; // Lock the axis
+            } else if (gamma < -tiltThreshold) {
+                currentY -= 90; // Tilt left
+                rotateCube();
+                canTiltY = false; // Lock the axis
+            }
+        } else if (Math.abs(gamma) < resetThreshold) {
+            // Unlock the axis when the phone is held relatively flat again
+            canTiltY = true; 
+        }
+
+        // --- Handle Up/Down Tilts (Beta) ---
+        if (canTiltX) {
+            if (beta > tiltThreshold) {
+                currentX -= 90; // Tilt down towards you
+                rotateCube();
+                canTiltX = false;
+            } else if (beta < -tiltThreshold) {
+                currentX += 90; // Tilt up away from you
+                rotateCube();
+                canTiltX = false;
+            }
+        } else if (Math.abs(beta) < resetThreshold) {
+            canTiltX = true;
+        }
+    });
+}
