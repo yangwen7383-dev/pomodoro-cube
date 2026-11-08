@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Pomodoro Cube</title>
     <link rel="stylesheet" href="style.css">
+    
+    <!-- NEW: Link the manifest -->
+    <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
@@ -42,5 +45,12 @@
     </div>
 
     <script src="script.js"></script>
+    
+<!-- NEW: Register the Service Worker -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
 </body>
 </html>
